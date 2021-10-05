@@ -25,8 +25,10 @@ $example_2 =
 
 $arr_1 = (parse($example_1));
 $arr_2 = (parse($example_2));
-//var_dump($arr_1);
-//var_dump($arr_2);
+ksort($arr_1);
+ksort($arr_2);
+var_dump($arr_1);
+var_dump($arr_2);
 
 function boolToString(array $array)
 {
@@ -43,9 +45,9 @@ function boolToString(array $array)
 function getSameElements(array $array_1, array $array_2)
 {
     $same = array_intersect($array_1, $array_2);
-    $item = '';
+    $item = [];
     foreach ($same as $key => $value) {
-        $item = $item . " " . $key . ": " . $value . "\n";
+        $item = [$key => $value];
     }
     return $item;
 }
@@ -53,10 +55,10 @@ function getSameElements(array $array_1, array $array_2)
 function getOnlyFirstElements(array $arr1, array $arr2)
 {
     $onlyFirst = array_diff_key($arr1, $arr2);
-    $onlyFirst = boolToString($onlyFirst);
-    $item = '';
+    //$onlyFirst = boolToString($onlyFirst);
+    $item = [];
     foreach($onlyFirst as $key => $value) {
-        $item = $item . "- " . $key . ": " . $value . "\n";
+        $item[$key] = $value;
     }
     return $item;
 }
@@ -64,10 +66,10 @@ function getOnlyFirstElements(array $arr1, array $arr2)
 function getOnlySecondElements(array $arr1, array $arr2)
 {
     $onlySecond = array_diff_key($arr2, $arr1);
-    $onlySecond = boolToString($onlySecond);
-    $item = '';
+    //$onlySecond = boolToString($onlySecond);
+    $item = [];
     foreach($onlySecond as $key => $value) {
-        $item = $item . "+ " . $key . ": " . $value . "\n";
+        $item[$key] = $value;
     }
     return $item;
 }
@@ -91,8 +93,8 @@ var_dump($onlyFirst);
 $onlySecond = getOnlySecondElements($arr_1, $arr_2);
 var_dump($onlySecond);
 
-$result = $same . $onlyFirst . $onlySecond . $common;
-var_dump($result);
+//$result = $same . $onlyFirst . $onlySecond . $common;
+//var_dump($result);
 
 
 
