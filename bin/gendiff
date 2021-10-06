@@ -1,5 +1,8 @@
 #!/usr/bin/env php
-<?php  
+<?php
+
+use function Differ\Differ\genDiff;
+
 
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
@@ -23,6 +26,11 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 require('vendor/docopt/docopt/src/docopt.php');
-$args = Docopt::handle($doc, array('version'=>'Gendiff'));
+$args = Docopt::handle($doc, array('version'=>'1.0'));
 foreach ($args as $k=>$v)
     echo $k.': '.json_encode($v).PHP_EOL;
+
+$pathToFirstFile = realpath($args['<firstFile>']);
+$pathToSecondFile = realpath($args['<secondFile>']);
+$comparison = genDiff($pathToFirstFile, $pathToSecondFile);
+echo $comparison;
