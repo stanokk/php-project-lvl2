@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-function genDiff(string $firstPath, string $secondPath) : string
+function genDiff(string $firstPath, string $secondPath): string
 {
     $arr_1 = (parse($firstPath));
     $arr_2 = (parse($secondPath));
@@ -14,7 +14,7 @@ function genDiff(string $firstPath, string $secondPath) : string
 
 
 
-function compare(array $commonKeys, array $first, array $second) : string
+function compare(array $commonKeys, array $first, array $second): string
 {
     $first = boolAsString($first);
     $second = boolAsString($second);
@@ -33,13 +33,13 @@ function compare(array $commonKeys, array $first, array $second) : string
     return "{" . "\n" . $result . "}" . "\n";
 }
 
-function parse(string $path) : array
+function parse(string $path): array
 {
     $fileContent = file_get_contents($path);
     return json_decode($fileContent, true);
 }
 
-function boolAsString(array $array) : array
+function boolAsString(array $array): array
 {
     return array_map(function ($value) {
         if ($value === true) {
@@ -50,4 +50,3 @@ function boolAsString(array $array) : array
         return $value;
     }, $array);
 }
-
