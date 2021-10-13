@@ -2,6 +2,8 @@
 
 namespace Differ\Differ;
 
+use function Differ\Parsers\parse;
+
 function genDiff(string $firstPath, string $secondPath): string
 {
     $arr_1 = (parse($firstPath));
@@ -11,7 +13,6 @@ function genDiff(string $firstPath, string $secondPath): string
     sort($arr_4);
     return compare($arr_4, $arr_1, $arr_2);
 }
-
 
 
 function compare(array $commonKeys, array $first, array $second): string
@@ -33,11 +34,6 @@ function compare(array $commonKeys, array $first, array $second): string
     return "{" . "\n" . $result . "}" . "\n";
 }
 
-function parse(string $path): array
-{
-    $fileContent = file_get_contents($path);
-    return json_decode($fileContent, true);
-}
 
 function boolAsString(array $array): array
 {
