@@ -11,9 +11,15 @@ class DifferTest extends TestCase
     public function testDiff(): void
     {
         $expected = file_get_contents(__DIR__ . "/fixtures/expected.txt");
-        $first = __DIR__ . "/fixtures/first.json";
-        $second = __DIR__ . "/fixtures/second.json";
-        $result = genDiff($first, $second);
+
+        $firstJson = __DIR__ . "/fixtures/first.json";
+        $secondJson = __DIR__ . "/fixtures/second.json";
+        $result = genDiff($firstJson, $secondJson);
+        $this->assertEquals($expected, $result);
+
+        $firstYml = __DIR__ . "/fixtures/first.yml";
+        $secondYml = __DIR__ . "/fixtures/second.yml";
+        $result = genDiff($firstYml, $secondYml);
         $this->assertEquals($expected, $result);
     }
 }
