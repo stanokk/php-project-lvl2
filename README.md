@@ -6,3 +6,6 @@
 
 ### Compare two '.yml' files:
 <a href="https://asciinema.org/a/PTtZCIsu6ThBiSU4yP6erkrWI" target="_blank"><img src="https://asciinema.org/a/PTtZCIsu6ThBiSU4yP6erkrWI.svg" /></a>
+
+### Compare recursively two '.json' files:
+<a href="https://asciinema.org/a/LBsotMz82qnalUfC2XR94jfK9" target="_blank"><img src="https://asciinema.org/a/LBsotMz82qnalUfC2XR94jfK9.svg" /></a>
