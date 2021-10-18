@@ -3,46 +3,61 @@
 namespace Differ\Differ;
 
 use function Differ\Parsers\parse;
+use function Differ\Format\format;
 
-function genDiff(string $firstPath, string $secondPath): string
+function genDiff(string $firstPath, string $secondPath, string $format = "stylish"): string
 {
     $arr_1 = (parse($firstPath));
     $arr_2 = (parse($secondPath));
-    $arr_3 = array_merge($arr_1, $arr_2);
-    $arr_4 = array_keys($arr_3);
-    sort($arr_4);
-    return compare($arr_4, $arr_1, $arr_2);
+    $ast = compare($arr_1, $arr_2);
+    return format($ast, $format);
 }
 
 
-function compare(array $commonKeys, array $first, array $second): string
+function compare(array $first, array $second): array
 {
-    $first = boolAsString($first);
-    $second = boolAsString($second);
-    $result = '';
-    foreach ($commonKeys as $key) {
-        if (array_key_exists($key, $first) && array_key_exists($key, $second) && $first[$key] === $second[$key]) {
-            $result = $result . "  " . $key . ": " . $first[$key] . "\n";
-        } elseif (array_key_exists($key, $first) && array_key_exists($key, $second) && $first[$key] !== $second[$key]) {
-            $result = $result . " -" . $key . ": " . $first[$key] . "\n" . " +" . $key . ": " . $second[$key] . "\n";
-        } elseif (array_key_exists($key, $first) && !array_key_exists($key, $second)) {
-            $result = $result . " -" . $key . ": " . $first[$key] . "\n";
-        } elseif (!array_key_exists($key, $first) && array_key_exists($key, $second)) {
-            $result = $result . " +" . $key . ": " . $second[$key] . "\n";
+    $commonKeys = array_keys(array_merge($first, $second));
+    sort($commonKeys);
+    return array_reduce($commonKeys, function ($acc, $key) use ($first, $second) {
+        if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
+            if (is_array($first[$key]) && is_array($second[$key])) {
+                $acc[] = [
+                    'type' => 'nested',
+                    'node' => $key,
+                    'children' => compare($first[$key], $second[$key])
+                ];
+            } else {
+                if ($first[$key] === $second[$key]) {
+                    $acc[] = [
+                        'type' => 'unchanged',
+                        'node' => $key,
+                        'from' => $second[$key],
+                        'to' => $second[$key]
+                    ];
+                } else {
+                    $acc[] = [
+                        'type' => 'changed',
+                        'node' => $key,
+                        'from' => $first[$key],
+                        'to' => $second[$key]
+                    ];
+                }
+            }
+        } elseif (array_key_exists($key, $first)) {
+            $acc[] = [
+                'type' => 'removed',
+                'node' => $key,
+                'from' => $first[$key],
+                'to' => ''
+            ];
+        } else {
+            $acc[] = [
+                'type' => 'added',
+                'node' => $key,
+                'from' => '',
+                'to' => $second[$key]
+            ];
         }
-    }
-    return "{" . "\n" . $result . "}" . "\n";
-}
-
-
-function boolAsString(array $array): array
-{
-    return array_map(function ($value) {
-        if ($value === true) {
-            $value = "true";
-        } elseif ($value === false) {
-            $value = "false";
-        }
-        return $value;
-    }, $array);
+        return $acc;
+    }, []);
 }
