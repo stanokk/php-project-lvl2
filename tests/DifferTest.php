@@ -11,6 +11,7 @@ class DifferTest extends TestCase
     public function testDiff(): void
     {
         $expected = file_get_contents(__DIR__ . "/fixtures/expected.txt");
+        $expectedStylish = file_get_contents(__DIR__ . "/fixtures/expectedStylish.txt");
 
         $firstJson = __DIR__ . "/fixtures/first.json";
         $secondJson = __DIR__ . "/fixtures/second.json";
@@ -20,6 +21,6 @@ class DifferTest extends TestCase
         $firstYml = __DIR__ . "/fixtures/first.yml";
         $secondYml = __DIR__ . "/fixtures/second.yml";
         $result = genDiff($firstYml, $secondYml);
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expectedStylish, $result);
     }
 }
