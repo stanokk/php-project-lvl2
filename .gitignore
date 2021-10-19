@@ -1,5 +1,6 @@
 /vendor/
 /.idea
+build
 file_1.json
 file_2.json
 file1.yml
