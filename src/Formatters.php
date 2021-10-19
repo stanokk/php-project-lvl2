@@ -4,6 +4,7 @@ namespace Differ\Formatters;
 
 use function Differ\Stylish\stylish;
 use function Differ\Plain\plain;
+use function Differ\Json\json;
 
 function format(array $ast, string $format): string
 {
