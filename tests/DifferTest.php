@@ -12,6 +12,8 @@ class DifferTest extends TestCase
     {
         $expected = file_get_contents(__DIR__ . "/fixtures/expected.txt");
         $expectedStylish = file_get_contents(__DIR__ . "/fixtures/expectedStylish.txt");
+        $expectedPlain = file_get_contents(__DIR__ . "/fixtures/expectedPlain.txt");
+        $expectedJson = file_get_contents(__DIR__ . "/fixtures/expectedJson.txt");
 
         $firstJson = __DIR__ . "/fixtures/first.json";
         $secondJson = __DIR__ . "/fixtures/second.json";
@@ -20,7 +22,15 @@ class DifferTest extends TestCase
 
         $firstYml = __DIR__ . "/fixtures/first.yml";
         $secondYml = __DIR__ . "/fixtures/second.yml";
-        $result = genDiff($firstYml, $secondYml);
-        $this->assertEquals($expectedStylish, $result);
+        $resultStylish = genDiff($firstYml, $secondYml);
+        $this->assertEquals($expectedStylish, $resultStylish);
+
+        $file1Json = __DIR__ . "/fixtures/file1.json";
+        $file2Json = __DIR__ . "/fixtures/file2.json";
+        $resultPlain = genDiff($file1Json, $file2Json, "plain");
+        $this->assertEquals($expectedPlain, $resultPlain);
+
+        $resultJson = genDiff($file1Json, $file2Json, "json");
+        $this->assertEquals($expectedJson, $resultJson);
     }
 }
