@@ -12,3 +12,6 @@
 
 ### Compare recursively two  '.json'  files with 'plain' output
 <a href="https://asciinema.org/a/rZxWoPgzxCWM36y9mz8mHgvCm" target="_blank"><img src="https://asciinema.org/a/rZxWoPgzxCWM36y9mz8mHgvCm.svg" /></a>
+
+### Compare recursively two  '.json'  files with 'json' output
+<a href="https://asciinema.org/a/tS21XNUU1PaYtn5h1SXvims9e" target="_blank"><img src="https://asciinema.org/a/tS21XNUU1PaYtn5h1SXvims9e.svg" /></a>
