@@ -12,7 +12,8 @@
             "src/Parsers.php",
             "src/formatters/Stylish.php",
             "src/Formatters.php",
-            "src/formatters/Plain.php"
+            "src/formatters/Plain.php",
+            "src/formatters/Json.php"
         ],
         "psr-4": {
             "Hexlet\\Code\\": "src/"
@@ -20,8 +21,7 @@
     },
     "require": {
         "docopt/docopt": "^1.0",
-        "symfony/yaml": "^5.3",
-        "funct/funct": "^1.5"
+        "symfony/yaml": "^5.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",
