@@ -38,5 +38,6 @@ jobs:
           CC_TEST_REPORTER_ID: 88fe5dce5dac043445547813aae035e8cbf41c8fddd2a734f481e5ee1db507a8
         with:
           coverageCommand: make test-coverage
+          coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
           debug: true
 
