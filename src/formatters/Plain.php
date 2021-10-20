@@ -46,7 +46,9 @@ function getValue($value): string
             return '[complex value]';
         case 'NULL':
             return 'null';
-        default:
+        case 'string':
             return sprintf("'%s'", $value);
+        default:
+            return $value;
     }
 }
