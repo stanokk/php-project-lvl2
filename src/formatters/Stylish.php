@@ -6,7 +6,7 @@ function stylish(array $array): string
 {
     $firstString = "{" . "\n";
     $body =  getBody($array);
-    $finalString = "\n" . "}\n";
+    $finalString = "\n" . "}";
     return "{$firstString}{$body}{$finalString}";
 }
 
