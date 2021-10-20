@@ -13,6 +13,8 @@ function parse(string $path): array
             return json_decode($fileContent, true);
         case "yml":
             return Yaml::parse($fileContent);
+        case "yaml":
+            return Yaml::parse($fileContent);
         default:
             throw new \Exception("Files with extension '.{$fileExtension}' are not supported!");
     }
