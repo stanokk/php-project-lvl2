@@ -6,8 +6,17 @@ use Symfony\Component\Yaml\Yaml;
 
 function parse(string $path): array
 {
+    if (!file_exists($path)) {
+        throw new \Exception("Invalid file path: {$path}");
+    }
+
     $fileContent = file_get_contents($path);
     $fileExtension = pathinfo($path, PATHINFO_EXTENSION);
+
+    if ($fileContent === false) {
+        throw new \Exception("File is unreadable: {$path}");
+    }
+
     switch ($fileExtension) {
         case "json":
             return json_decode($fileContent, true);
