@@ -25,7 +25,8 @@ function plain(array $ast)
                     $acc[] = "Property '{$pathToNode}' was removed";
                     break;
                 case 'changed':
-                    $acc[] = "Property '{$pathToNode}' was updated. From " . getValue($node['from']) . " to '{$node['to']}'";
+                    $from = getValue($node['from']);
+                    $acc[] = "Property '{$pathToNode}' was updated. From $from to '{$node['to']}'";
                     break;
             }
             return $acc;
