@@ -27,7 +27,7 @@ function plain(array $ast)
                 case 'changed':
                     $from = getValue($node['from']);
                     $to = getValue($node['to']);
-                    $acc[] = "Property '{$pathToNode}' was updated. From $from to '{$to}'";
+                    $acc[] = "Property '{$pathToNode}' was updated. From $from to $to";
                     break;
             }
             return $acc;
@@ -47,6 +47,6 @@ function getValue($value): string
         case 'NULL':
             return 'null';
         default:
-            return $value;
+            return sprintf("'%s'", $value);
     }
 }
