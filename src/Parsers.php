@@ -19,7 +19,7 @@ function parse(string $path): array
 
     switch ($fileExtension) {
         case "json":
-            return json_decode($fileContent, true, JSON_THROW_ON_ERROR);
+            return json_decode($fileContent, true);
         case "yml":
             return Yaml::parse($fileContent);
         case "yaml":
