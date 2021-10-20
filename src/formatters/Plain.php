@@ -27,14 +27,14 @@ function plain(array $ast)
                 case 'changed':
                     $from = getValue($node['from']);
                     $to = getValue($node['to']);
-                    $acc[] = "Property '{$pathToNode}' was updated. From '{$from}' to '{$to}'";
+                    $acc[] = "Property '{$pathToNode}' was updated. From $from to $to";
                     break;
             }
             return $acc;
         }, []);
     };
 
-    return implode("\n", $iter($ast, [])) . "\n";
+    return implode("\n", $iter($ast, []));
 }
 
 function getValue($value): string
