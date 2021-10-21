@@ -18,46 +18,33 @@ function compare(array $first, array $second): array
 {
     $commonKeys = array_keys(array_merge($first, $second));
     sort($commonKeys);
-    return array_reduce($commonKeys, function ($acc, $key) use ($first, $second) {
+    $buildAst = array_map(function ($key) use ($first, $second) {
         if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
             if (is_array($first[$key]) && is_array($second[$key])) {
-                $acc[] = [
-                    'type' => 'nested',
-                    'node' => $key,
-                    'children' => compare($first[$key], $second[$key])
-                ];
+                return makeNode('nested', $key, null, null, compare($first[$key], $second[$key]));
             } else {
                 if ($first[$key] === $second[$key]) {
-                    $acc[] = [
-                        'type' => 'unchanged',
-                        'node' => $key,
-                        'from' => $second[$key],
-                        'to' => $second[$key]
-                    ];
+                    return makeNode('unchanged', $key, $second[$key], $second[$key]);
                 } else {
-                    $acc[] = [
-                        'type' => 'changed',
-                        'node' => $key,
-                        'from' => $first[$key],
-                        'to' => $second[$key]
-                    ];
+                    return makeNode('changed', $key, $first[$key], $second[$key]);
                 }
             }
         } elseif (array_key_exists($key, $first)) {
-            $acc[] = [
-                'type' => 'removed',
-                'node' => $key,
-                'from' => $first[$key],
-                'to' => ''
-            ];
+            return makeNode('removed', $key, $first[$key], '');
         } else {
-            $acc[] = [
-                'type' => 'added',
-                'node' => $key,
-                'from' => '',
-                'to' => $second[$key]
-            ];
+            return makeNode('added', $key, '', $second[$key]);
         }
-        return $acc;
-    }, []);
+    }, $commonKeys);
+    return $buildAst;
+}
+
+function makeNode(string $type, string $key, $oldValue, $newValue, $children = null): array
+{
+    return [
+        'type' => $type,
+        'node' => $key,
+        'from' => $oldValue,
+        'to' => $newValue,
+        'children' => $children
+    ];
 }
