@@ -6,7 +6,7 @@ use function Functional\flatten;
 
 function plain(array $ast): string
 {
-    $iter = function ($ast, $parents) use (&$iter) {
+    $iter = function ($ast, $parents) use (&$iter): array {
         return array_map(function ($node) use ($iter, $parents) {
             [
                 'type' => $type,
@@ -30,7 +30,7 @@ function plain(array $ast): string
             }
         }, $ast);
     };
-    $result = flatten($iter($ast, []));
+    $result = array_filter(flatten($iter($ast, [])));
     return implode("\n", $result);
 }
 
