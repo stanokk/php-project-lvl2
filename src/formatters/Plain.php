@@ -2,10 +2,12 @@
 
 namespace Differ\Plain;
 
+use function Functional\flatten;
+
 function plain(array $ast): string
 {
     $iter = function ($ast, $parents) use (&$iter) {
-        return array_reduce($ast, function ($acc, $node) use ($iter, $parents) {
+        return array_map(function ($node) use ($iter, $parents) {
             [
                 'type' => $type,
                 'node' => $key,
@@ -13,35 +15,23 @@ function plain(array $ast): string
                 'to' => $newValue,
                 'children' => $children
             ] = $node;
-            $parents[] = $key;
-            $pathToNode = implode('.', $parents);
+            $pathToNode = implode('.', [...$parents, $key]);
+            $from = getValue($oldValue);
+            $to = getValue($newValue);
             switch ($type) {
                 case 'nested':
-                    $acc = array_merge($acc, $iter($children, $parents));
-                    break;
+                    return $iter($children, [...$parents, $key]);
                 case 'added':
-                    if (is_array($newValue)) {
-                        $acc[] = "Property '{$pathToNode}' was added with value: " . getValue($newValue);
-                    } elseif (is_bool($newValue)) {
-                        $acc[] = "Property '{$pathToNode}' was added with value: " . getValue($newValue);
-                    } else {
-                        $acc[] = "Property '{$pathToNode}' was added with value: '{$newValue}'";
-                    }
-                    break;
+                    return "Property '{$pathToNode}' was added with value: $to";
                 case 'removed':
-                    $acc[] = "Property '{$pathToNode}' was removed";
-                    break;
+                    return "Property '{$pathToNode}' was removed";
                 case 'changed':
-                    $from = getValue($oldValue);
-                    $to = getValue($newValue);
-                    $acc[] = "Property '{$pathToNode}' was updated. From $from to $to";
-                    break;
+                    return "Property '{$pathToNode}' was updated. From $from to $to";
             }
-            return $acc;
-        }, []);
+        }, $ast);
     };
-
-    return implode("\n", $iter($ast, []));
+    $result = flatten($iter($ast, []));
+    return implode("\n", $result);
 }
 
 function getValue($value): string
