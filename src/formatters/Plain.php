@@ -2,31 +2,38 @@
 
 namespace Differ\Plain;
 
-function plain(array $ast)
+function plain(array $ast): string
 {
     $iter = function ($ast, $parents) use (&$iter) {
         return array_reduce($ast, function ($acc, $node) use ($iter, $parents) {
-            $parents[] = $node['node'];
+            [
+                'type' => $type,
+                'node' => $key,
+                'from' => $oldValue,
+                'to' => $newValue,
+                'children' => $children
+            ] = $node;
+            $parents[] = $key;
             $pathToNode = implode('.', $parents);
-            switch ($node['type']) {
+            switch ($type) {
                 case 'nested':
-                    $acc = array_merge($acc, $iter($node['children'], $parents));
+                    $acc = array_merge($acc, $iter($children, $parents));
                     break;
                 case 'added':
-                    if (is_array($node['to'])) {
-                        $acc[] = "Property '{$pathToNode}' was added with value: " . getValue($node['to']);
-                    } elseif (is_bool($node['to'])) {
-                        $acc[] = "Property '{$pathToNode}' was added with value: " . getvalue($node['to']);
+                    if (is_array($newValue)) {
+                        $acc[] = "Property '{$pathToNode}' was added with value: " . getValue($newValue);
+                    } elseif (is_bool($newValue)) {
+                        $acc[] = "Property '{$pathToNode}' was added with value: " . getValue($newValue);
                     } else {
-                        $acc[] = "Property '{$pathToNode}' was added with value: '{$node['to']}'";
+                        $acc[] = "Property '{$pathToNode}' was added with value: '{$newValue}'";
                     }
                     break;
                 case 'removed':
                     $acc[] = "Property '{$pathToNode}' was removed";
                     break;
                 case 'changed':
-                    $from = getValue($node['from']);
-                    $to = getValue($node['to']);
+                    $from = getValue($oldValue);
+                    $to = getValue($newValue);
                     $acc[] = "Property '{$pathToNode}' was updated. From $from to $to";
                     break;
             }
