@@ -2,6 +2,8 @@
 
 namespace Differ\Stylish;
 
+use function Functional\concat;
+
 function stylish(array $array): string
 {
     $firstString = "{" . "\n";
@@ -12,26 +14,22 @@ function stylish(array $array): string
 
 function getBody(array $array, int $depth = 0): string
 {
-    $body = array_reduce($array, function ($acc, $data) use ($depth) {
+    $body = array_map(function ($data) use ($depth) {
         switch ($data['type']) {
             case 'changed':
-                $acc[] = formatRemoved($data, $depth);
-                $acc[] = formatAdded($data, $depth);
-                break;
+                $removed = formatRemoved($data, $depth);
+                $added = formatAdded($data, $depth);
+                return concat($removed, "\n", $added);
             case 'unchanged':
-                $acc[] = formatUnchanged($data, $depth);
-                break;
+                return formatUnchanged($data, $depth);
             case 'removed':
-                $acc[] = formatRemoved($data, $depth);
-                break;
+                return formatRemoved($data, $depth);
             case 'added':
-                $acc[] = formatAdded($data, $depth);
-                break;
+                return formatAdded($data, $depth);
             case 'nested':
-                $acc[] = formatNested($data, $depth);
+                return formatNested($data, $depth);
         }
-        return $acc;
-    }, []);
+    }, $array);
     return implode("\n", $body);
 }
 
