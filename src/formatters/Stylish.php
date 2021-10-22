@@ -29,6 +29,7 @@ function getBody(array $array, int $depth = 0): string
             case 'nested':
                 return formatNested($data, $depth);
         }
+        return $data;
     }, $array);
     return implode("\n", $body);
 }
