@@ -14,7 +14,7 @@ function stylish(array $array): string
 
 function getBody(array $array, int $depth = 0): string
 {
-    $body = array_map(function ($data) use ($depth) {
+    $body = array_map(function ($data) use ($depth): string {
         switch ($data['type']) {
             case 'changed':
                 $removed = formatRemoved($data, $depth);
