@@ -4,8 +4,9 @@ namespace Differ\Differ;
 
 use function Differ\Parsers\parse;
 use function Differ\Formatters\format;
+use function Functional\sort;
 
-function genDiff(string $firstPath, string $secondPath, string $format = "stylish"): string
+function genDiff(string $firstPath, string $secondPath, string $format = 'stylish'): string
 {
     $arr_1 = (parse($firstPath));
     $arr_2 = (parse($secondPath));
@@ -51,6 +52,6 @@ function makeNode(string $type, string $key, $oldValue, $newValue, $children = n
 
 function sortArray(array $arr): array
 {
-    sort($arr);
-    return $arr;
+    $sortedArr = sort($arr, fn($left, $right) => strcmp($left, $right));
+    return $sortedArr;
 }
