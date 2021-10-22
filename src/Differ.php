@@ -16,9 +16,9 @@ function genDiff(string $firstPath, string $secondPath, string $format = "stylis
 
 function compare(array $first, array $second): array
 {
-    $commonKeys = array_keys(array_merge($first, $second));
-    sort($commonKeys);
-    $buildAst = array_map(function ($key) use ($first, $second) {
+    $keys = array_keys(array_merge($first, $second));
+    $commonKeys = sortArray($keys);
+    $buildAst = array_map(function ($key) use ($first, $second): array {
         if (array_key_exists($key, $first) && array_key_exists($key, $second)) {
             if (is_array($first[$key]) && is_array($second[$key])) {
                 return makeNode('nested', $key, null, null, compare($first[$key], $second[$key]));
@@ -47,4 +47,10 @@ function makeNode(string $type, string $key, $oldValue, $newValue, $children = n
         'to' => $newValue,
         'children' => $children
     ];
+}
+
+function sortArray(array $arr): array
+{
+    sort($arr);
+    return $arr;
 }
