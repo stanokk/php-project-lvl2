@@ -89,7 +89,7 @@ function getValue(mixed $value, int $depth): string
 {
     switch (gettype($value)) {
         case 'boolean':
-            return $value ? 'true' : 'false';
+            return $value === true ? 'true' : 'false';
         case 'array':
             return formatArray($value, $depth + 1);
         case 'NULL':
