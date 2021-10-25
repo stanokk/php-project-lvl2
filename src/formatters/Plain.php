@@ -34,7 +34,7 @@ function plain(array $ast): string
     return implode("\n", $result);
 }
 
-function getValue(mixed $value): string
+function getValue(int|string|array|bool|null $value): string
 {
     switch (gettype($value)) {
         case 'boolean':
