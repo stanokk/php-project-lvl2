@@ -85,7 +85,7 @@ function getIndent(int $depth): string
     return str_pad('', $indent, '    ');
 }
 
-function getValue($value, int $depth): string
+function getValue(int|string|array|bool|null $value, int $depth): string
 {
     switch (gettype($value)) {
         case 'boolean':
