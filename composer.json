@@ -7,6 +7,9 @@
 	    "bin/gendiff"
     ],
     "autoload": {
+        "classmap": [
+            "src/"
+        ],
         "files": [
             "src/Differ.php",
             "src/Parsers.php",
