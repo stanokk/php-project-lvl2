@@ -38,7 +38,7 @@ function getValue(mixed $value): string
 {
     switch (gettype($value)) {
         case 'boolean':
-            return $value ? 'true' : 'false';
+            return $value === true ? 'true' : 'false';
         case 'array':
             return '[complex value]';
         case 'NULL':
