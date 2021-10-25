@@ -39,7 +39,7 @@ function compare(array $first, array $second): array
     return $buildAst;
 }
 
-function makeNode(string $type, string $key, $oldValue, $newValue, $children = null): array
+function makeNode(string $type, string $key, mixed $oldValue, mixed $newValue, $children = null): array
 {
     return [
         'type' => $type,
