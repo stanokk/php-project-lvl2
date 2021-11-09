@@ -32,8 +32,10 @@ function compare(array $first, array $second): array
             }
         } elseif (array_key_exists($key, $first)) {
             return makeNode('removed', $key, $first[$key], '');
-        } else {
+        } elseif (array_key_exists($key, $second)) {
             return makeNode('added', $key, '', $second[$key]);
+        } else {
+            throw new \Exception("Invalid data type");
         }
     }, $commonKeys);
     return $buildAst;
